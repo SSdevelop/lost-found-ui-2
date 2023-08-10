@@ -1,7 +1,8 @@
 import { MapContainer, TileLayer } from "react-leaflet";
 import 'leaflet/dist/leaflet.css';
+import { LatLngBoundsExpression } from "leaflet";
 const Map = () => {
-    const airportBounds = [
+    const airportBounds: LatLngBoundsExpression = [
         [22.303, 113.913],
         [22.311, 113.921],
     ];
