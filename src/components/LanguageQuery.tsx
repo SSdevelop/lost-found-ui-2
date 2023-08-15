@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   Box,
   Card,
@@ -5,8 +6,13 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
+import useToggleInput from "../store/buttonState";
 
 const LanguageQuery = () => {
+  const isTextDisabled = useToggleInput((state: any) => state.isTextDisabled);
+  const setFileDisabled = useToggleInput((state: any) => state.setFileDisabled);
+  const setFileEnabled = useToggleInput((state: any) => state.setFileEnabled);
+  
   return (
     <Box sx={{ minWidth: "400px", width:'95%', margin: "10px" }}>
       <Card
@@ -24,6 +30,9 @@ const LanguageQuery = () => {
             label="Object Description"
             variant="outlined"
             fullWidth
+            onFocus={setFileDisabled}
+            onBlur={setFileEnabled}
+            disabled={isTextDisabled}
           />
         </CardContent>
       </Card>

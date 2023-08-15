@@ -4,6 +4,7 @@ import Header from "./components/Header";
 import LanguageQuery from "./components/LanguageQuery";
 import ImageQuery from "./components/ImageQuery";
 import Map from './components/Map';
+import ButtonBar from './components/ButtonBar';
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
             </Typography>
           </Divider>
           <ImageQuery />
+          <ButtonBar />
         </Grid>
         <Grid item xs={12} md={6}>
           <Map />

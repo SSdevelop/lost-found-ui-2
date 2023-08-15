@@ -1,8 +1,13 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Button, Grid, TextField, styled } from "@mui/material";
 import React from "react";
+import useToggleInput from "../store/buttonState";
 
 const ImageInput = () => {
   const [filename, setFilename] = React.useState<string>("");
+  const isFileDisabled = useToggleInput((state: any) => state.isFileDisabled);
+  const setTextDisabled = useToggleInput((state: any) => state.setTextDisabled);
+  const setTextEnabled = useToggleInput((state: any) => state.setTextEnabled);
 
   const DisabledInput = styled(TextField)(() => ({
     "& .MuiFormLabel-root.Mui-disabled": {
@@ -31,6 +36,7 @@ const ImageInput = () => {
     event: React.MouseEvent<HTMLButtonElement>
   ) => {
     event.preventDefault();
+    setTextDisabled();
     const imageQuery = document.getElementById("image-query");
     if (imageQuery) {
       imageQuery.click();
@@ -46,6 +52,7 @@ const ImageInput = () => {
         multiple={true}
         style={{ display: "none" }}
         onChange={handleFileDialogue}
+        onBlur={setTextEnabled}
       />
       <Grid container>
         <Grid item xs={9}>
@@ -67,6 +74,7 @@ const ImageInput = () => {
             variant="contained"
             sx={{ width: "100%", height: "100%" }}
             onClick={openDialogue}
+            disabled={isFileDisabled}
           >
             Choose Image
           </Button>
