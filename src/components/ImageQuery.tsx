@@ -10,19 +10,27 @@ import {
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import ImageInput from "./ImageInput";
 import useVisibilityStore from "../store/visibilityStore";
+import ImageListModal from "./ImageListModal";
+
 const ImageQuery = () => {
-  const [badgeVisibility, setBadgeVisibility] = useState(false);
-  const { iamgeInput } = useVisibilityStore(state => ({
-    iamgeInput: state.imageInput,
+  const [badgeVisibility, setBadgeVisibility] = useState<boolean>(false);
+  const [badgeCount, setBadgeCount] = useState<number>(0);
+  const [openModel, setOpenModel] = useState<boolean>(false);
+  const { imageInput } = useVisibilityStore(state => ({
+    imageInput: state.imageInput,
   }));
 
   useEffect(() => {
-    if (iamgeInput.length > 0) {
-      setBadgeVisibility(true);
+    if (imageInput.length > 0) {
+      setBadgeVisibility(() => true);
+      setBadgeCount(() => imageInput.length);
     } else {
-      setBadgeVisibility(false);
+      setBadgeVisibility(() => false);
     }
-  }, [iamgeInput]);
+  }, [imageInput]);
+
+  const handleClose = () => setOpenModel(false);
+  const handleBadgeClick = () => setOpenModel(true);
 
   return (
     <Box sx={{ minWidth: "400px", width: "95%", margin: "10px" }}>
@@ -44,11 +52,11 @@ const ImageQuery = () => {
             }}
           >
             <Badge
-              badgeContent={1}
+              badgeContent={badgeCount}
               color="primary"
-              variant="dot"
               overlap="circular"
               sx={{ display: badgeVisibility ? "block" : "none" }}
+              onClick={handleBadgeClick}
             >
               <VisibilityIcon />
             </Badge>
@@ -58,6 +66,7 @@ const ImageQuery = () => {
           <ImageInput />
         </CardContent>
       </Card>
+      <ImageListModal open={openModel} handleClose={handleClose} />
     </Box>
   );
 };
