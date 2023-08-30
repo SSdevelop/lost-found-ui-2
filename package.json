@@ -12,12 +12,14 @@
   "dependencies": {
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
-    "@mui/material": "^5.14.4",
+    "@mui/icons-material": "^5.14.7",
+    "@mui/material": "^5.14.7",
     "formik": "^2.4.3",
     "formik-mui": "^5.0.0-alpha.0",
     "leaflet": "^1.9.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-dropzone": "^14.2.3",
     "react-leaflet": "^4.2.1",
     "zustand": "^4.4.1"
   },

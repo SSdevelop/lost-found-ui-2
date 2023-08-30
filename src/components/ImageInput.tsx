@@ -1,86 +1,77 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Button, Grid, TextField, styled } from "@mui/material";
-import React from "react";
-import useToggleInput from "../store/buttonState";
+import { Box } from "@mui/material";
+import React, { useMemo } from "react";
+import { useDropzone } from "react-dropzone";
+const baseStyle = {
+  width: '90%',
+  height: '5.5em',
+  margin: 'auto',
+  flex: 1,
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  justifyContent: 'center',
+  padding: '20px',
+  borderWidth: 2,
+  borderRadius: 2,
+  borderColor: '#eeeeee',
+  borderStyle: 'dashed',
+  backgroundColor: '#fafafa',
+  color: '#bdbdbd',
+  outline: 'none',
+  transition: 'border .24s ease-in-out'
+};
+
+const focusedStyle = {
+  borderColor: '#2196f3'
+};
+
+const acceptStyle = {
+  borderColor: '#00e676'
+};
+
+const rejectStyle = {
+  borderColor: '#ff1744'
+};
 
 const ImageInput = () => {
-  const [filename, setFilename] = React.useState<string>("");
-  const isFileDisabled = useToggleInput((state: any) => state.isFileDisabled);
-  const setTextDisabled = useToggleInput((state: any) => state.setTextDisabled);
-  const setTextEnabled = useToggleInput((state: any) => state.setTextEnabled);
+  const {
+    acceptedFiles,
+    getRootProps,
+    getInputProps,
+    isFocused,
+    isDragAccept,
+    isDragReject
+  } = useDropzone({accept: {'image/*': []}});
 
-  const DisabledInput = styled(TextField)(() => ({
-    "& .MuiFormLabel-root.Mui-disabled": {
-      color: "rgb(0,0,0) !important",
-    },
-    "& .MuiInputBase-input.Mui-disabled": {
-      opacity: 1,
-      WebkitTextFillColor: "rgb(0,0,0) !important",
-      color: "rgb(0,0,0) !important",
-    },
-  }));
+  const style = useMemo(() => ({
+    ...baseStyle,
+    ...(isFocused ? focusedStyle : {}),
+    ...(isDragAccept ? acceptStyle : {}),
+    ...(isDragReject ? rejectStyle : {})
+  }), [
+    isFocused,
+    isDragAccept,
+    isDragReject
+  ]);
 
-  const handleFileDialogue: React.ChangeEventHandler<HTMLInputElement> = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    const files = event.target.files;
-    if (files) {
-      const filenames = [];
-      for (let i = 0; i < files.length; i++) {
-        filenames.push(files[i].name);
-      }
-      return setFilename(filenames.join(", "));
-    }
-  };
-  const openDialogue: React.MouseEventHandler<HTMLButtonElement> = (
-    event: React.MouseEvent<HTMLButtonElement>
-  ) => {
-    event.preventDefault();
-    setTextDisabled();
-    const imageQuery = document.getElementById("image-query");
-    if (imageQuery) {
-      imageQuery.click();
-    }
-  };
+  const files = acceptedFiles.map((file: any) => (
+    <li key={file.path}>
+      {file.path} - {file.size} bytes
+    </li>
+  ));
+
   return (
-    <div>
-      <input
-        type="file"
-        name="image-query"
-        id="image-query"
-        accept="image/*"
-        multiple={true}
-        style={{ display: "none" }}
-        onChange={handleFileDialogue}
-        onBlur={setTextEnabled}
-      />
-      <Grid container>
-        <Grid item xs={9}>
-          <DisabledInput
-            variant="outlined"
-            label={filename || "No File Chosen"}
-            fullWidth
-            disabled
-            sx={{
-              "& .MuiInputBase-input.Mui-disabled": {
-                WebkitTextFillColor: "rgba(0,0,0,1)",
-                color: "rgba(0,0,0,1)",
-              },
-            }}
-          />
-        </Grid>
-        <Grid item xs={3}>
-          <Button
-            variant="contained"
-            sx={{ width: "100%", height: "100%" }}
-            onClick={openDialogue}
-            disabled={isFileDisabled}
-          >
-            Choose Image
-          </Button>
-        </Grid>
-      </Grid>
-    </div>
+    <Box >
+      <div {...getRootProps({ style: style as React.CSSProperties })}>
+        <input {...getInputProps()} />
+        <p>Drag 'n' drop some files here, or click to select files</p>
+      </div>
+      <aside>
+        <h4>Files</h4>
+        <ul>{files}</ul>
+      </aside>
+    </Box>
   );
 };
 
