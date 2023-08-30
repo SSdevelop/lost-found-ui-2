@@ -2,6 +2,7 @@
 import { Box } from "@mui/material";
 import React, { useMemo } from "react";
 import { useDropzone } from "react-dropzone";
+import useVisibilityStore from "../store/visibilityStore";
 const baseStyle = {
   width: '90%',
   height: '5.5em',
@@ -36,13 +37,27 @@ const rejectStyle = {
 
 const ImageInput = () => {
   const {
-    acceptedFiles,
+    imageInput,
+    setImageInput,
+    imageDisabled
+  } = useVisibilityStore(state => ({
+    imageInput: state.imageInput,
+    setImageInput: state.setImageInput,
+    imageDisabled: state.imageDisabled,
+  }));
+
+  const onDrop = (acceptedFiles: File[]) => {
+    const newInputImages = [...imageInput, ...acceptedFiles];
+    setImageInput(newInputImages);
+  }
+  const {
+    // acceptedFiles,
     getRootProps,
     getInputProps,
     isFocused,
     isDragAccept,
     isDragReject
-  } = useDropzone({accept: {'image/*': []}});
+  } = useDropzone({accept: {'image/*': []}, onDrop, disabled: imageDisabled});
 
   const style = useMemo(() => ({
     ...baseStyle,
@@ -55,7 +70,7 @@ const ImageInput = () => {
     isDragReject
   ]);
 
-  const files = acceptedFiles.map((file: any) => (
+  const files = imageInput.map((file: any) => (
     <li key={file.path}>
       {file.path} - {file.size} bytes
     </li>

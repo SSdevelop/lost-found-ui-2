@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import {
   Box,
   Card,
@@ -8,8 +9,21 @@ import {
 } from "@mui/material";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import ImageInput from "./ImageInput";
-
+import useVisibilityStore from "../store/visibilityStore";
 const ImageQuery = () => {
+  const [badgeVisibility, setBadgeVisibility] = useState(false);
+  const { iamgeInput } = useVisibilityStore(state => ({
+    iamgeInput: state.imageInput,
+  }));
+
+  useEffect(() => {
+    if (iamgeInput.length > 0) {
+      setBadgeVisibility(true);
+    } else {
+      setBadgeVisibility(false);
+    }
+  }, [iamgeInput]);
+
   return (
     <Box sx={{ minWidth: "400px", width: "95%", margin: "10px" }}>
       <Card
@@ -34,6 +48,7 @@ const ImageQuery = () => {
               color="primary"
               variant="dot"
               overlap="circular"
+              sx={{ display: badgeVisibility ? "block" : "none" }}
             >
               <VisibilityIcon />
             </Badge>

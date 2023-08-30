@@ -7,8 +7,17 @@ import {
   Typography,
 } from "@mui/material";
 
+import useVisibilityStore from "../store/visibilityStore";
+
 const LanguageQuery = () => {
-  
+  const { textInput, setTextInput, textDisabled } = useVisibilityStore(state => ({
+    textInput: state.textInput,
+    setTextInput: state.setTextInput,
+    textDisabled: state.textDisabled,
+  }));
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setTextInput(event.target.value);
+  };
   return (
     <Box sx={{ minWidth: "400px", width:'95%', margin: "10px" }}>
       <Card
@@ -26,6 +35,9 @@ const LanguageQuery = () => {
             label="Object Description"
             variant="outlined"
             fullWidth
+            value={textInput}
+            onChange={handleChange}
+            disabled={textDisabled}
           />
         </CardContent>
       </Card>
