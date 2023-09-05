@@ -50,6 +50,19 @@ const ImageInput = () => {
     const newInputImages = [...imageInput, ...acceptedFiles];
     setImageInput(newInputImages);
   }
+
+  const duplicateValidator = (file: File) => {
+    for(let i=0; i < imageInput.length; i++) {
+      if (imageInput[i].name === file.name) {
+        return {
+          code: 'duplicate',
+          message: 'Duplicate file'
+        };
+      }
+    }
+    return null;
+  };
+
   const {
     // acceptedFiles,
     getRootProps,
@@ -57,7 +70,7 @@ const ImageInput = () => {
     isFocused,
     isDragAccept,
     isDragReject
-  } = useDropzone({accept: {'image/*': []}, onDrop, disabled: imageDisabled});
+  } = useDropzone({accept: {'image/*': []}, onDrop, disabled: imageDisabled, validator: duplicateValidator});
 
   const style = useMemo(() => ({
     ...baseStyle,
@@ -70,22 +83,12 @@ const ImageInput = () => {
     isDragReject
   ]);
 
-  const files = imageInput.map((file: any) => (
-    <li key={file.path}>
-      {file.path} - {file.size} bytes
-    </li>
-  ));
-
   return (
     <Box >
       <div {...getRootProps({ style: style as React.CSSProperties })}>
         <input {...getInputProps()} />
         <p>Drag 'n' drop some files here, or click to select files</p>
       </div>
-      <aside>
-        <h4>Files</h4>
-        <ul>{files}</ul>
-      </aside>
     </Box>
   );
 };

@@ -9,6 +9,7 @@ type VisibilityState = {
   setTextInput: (v: string) => void;
   setImageInput: (v: File[]) => void;
   resetInputs: () => void;
+  removeImageAt: (index: number) => void;
 };
 
 const useVisibilityStore = create<VisibilityState>(
@@ -31,6 +32,11 @@ const useVisibilityStore = create<VisibilityState>(
           textDisabled: false,
           imageDisabled: false,
         }),
+      removeImageAt: (index: number) => {
+        const newImageInput = [...useVisibilityStore.getState().imageInput];
+        newImageInput.splice(index, 1);
+        set({ imageInput: newImageInput });
+      }
     })
   )
 );
