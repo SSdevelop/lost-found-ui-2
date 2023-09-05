@@ -1,5 +1,5 @@
 import useVisibilityStore from '../store/visibilityStore';
-import { Box, Button, Card, CardActionArea, CardMedia, Modal, Typography } from '@mui/material';
+import { Box, Button, Card, CardMedia, Modal, Typography } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useEffect } from 'react';
 

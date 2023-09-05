@@ -19,7 +19,7 @@ const LanguageQuery = () => {
     setTextInput(event.target.value);
   };
   return (
-    <Box sx={{ minWidth: "400px", width:'95%', margin: "10px" }}>
+    <Box sx={{ minWidth: "400px", width:'95%', margin: "10px", borderRadius: '15px', boxShadow: textInput === "" ? '0' : '0px 0px 5px 0px rgba(0,0,0,0.75)' }}>
       <Card
         variant="outlined"
         sx={{ borderRadius: "10px", backgroundColor: "#f7f8f8" }}
