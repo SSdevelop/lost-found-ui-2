@@ -1,5 +1,5 @@
-import { Box, Button, Modal, Tab, Tabs } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useState, useEffect } from 'react';
+import { Box, Tabs, Tab, CircularProgress } from "@mui/material";
 import useVisibilityStore from "../store/visibilityStore";
 
 const style = {
@@ -11,33 +11,33 @@ const style = {
     p: 4,
 };
 
-export default function VideosModal() {
-    const [open, setOpen] = useState(false);
-    const { videoNames } = useVisibilityStore(state => ({
-        videoNames: state.videoNames,
+type ResultsProps = {
+    loading: boolean;
+};
+
+export default function Results( { loading }: ResultsProps) {
+    const { resultVideoDirs } = useVisibilityStore(state => ({
+        resultVideoDirs: state.resultVideoDirs,
     }));
 
     const [videos, setVideos] = useState<string[]>([]);
 
-    const handleClick = () => {
-        setOpen(true);
-    };
-
     useEffect(() => {
-        const videoNamesFiltered = videoNames.filter(videoName => videoName !== '');
-        setVideos(videoNamesFiltered);
-    }, [videoNames]);
+        console.log(resultVideoDirs);
+        const resultVideos = [];
+        for(let i = 0; i < resultVideoDirs.length; i++) {
+            resultVideos.push(`${resultVideoDirs[i]}/rank0.mp4`);
+            resultVideos.push(`${resultVideoDirs[i]}/rank1.mp4`);
+            resultVideos.push(`${resultVideoDirs[i]}/rank2.mp4`);
+        }
+        setVideos(resultVideos);
+    }, [resultVideoDirs]);
 
     return (
-        <Box>
-            <Button variant="contained" sx={{ margin: 0, height: "100%" }} disabled={!videoNames.some(Boolean)} onClick={handleClick}>
-                Show Selected Videos
-            </Button>
-            <Modal open={open} onClose={() => setOpen(false)}>
-                <Box sx={style}>
-                    <VideoTabs videoNames={videos} />
-                </Box>
-            </Modal>
+        <Box sx={style}>
+            {
+                loading ? (<CircularProgress />) : (<VideoTabs videoNames={videos} />)
+            }
         </Box>
     );
 }
@@ -62,7 +62,7 @@ const VideoTabs = ({ videoNames }: VideoTabsProps) => {
                 <Tabs value={value} onChange={(event, newValue) => setValue(newValue)} aria-label="video tabs">
                     {
                         videoNames.map((videoName, index) => videoName !== '' && (
-                            <Tab label={videoName} key={index} {...a11yProps(index)} />
+                            <Tab label={videoName.slice(videoName.lastIndexOf('/') + 1)} key={index} {...a11yProps(index)} />
                         ))
                     }
                 </Tabs>
@@ -73,7 +73,7 @@ const VideoTabs = ({ videoNames }: VideoTabsProps) => {
                         {
                             value === index && (
                                 <video controls height={500}>
-                                    <source src={`http://localhost:5000/files/${videoName}`} />
+                                    <source src={`http://localhost:5000/files/results?filepath=${videoName}`} />
                                 </video>
                             )
                         }
