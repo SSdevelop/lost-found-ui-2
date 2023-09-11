@@ -15,6 +15,7 @@ const ButtonBar = () => {
 
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [timetaken, setTimeTaken] = useState('00:00');
 
   const handleSubmit = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
@@ -23,15 +24,30 @@ const ButtonBar = () => {
     setOpen(true);
     const query_type = imageInput.length !== 0 ? 'image' : 'lang';
     const videoNamesFiltered = videoNames.filter(videoName => videoName !== '');
-    const formData = axios.toFormData({
-      'query_type' : query_type,
-      'video_names' : videoNamesFiltered.join(','),
-      'lang_query' : imageInput.length !== 0 ? '' : textInput,
-      'image_query' : imageInput.length !== 0 ? imageInput : '',
-    });
+    // const formData = axios.toFormData({
+    //   'query_type' : query_type,
+    //   'video_names' : videoNamesFiltered.join(','),
+    //   'lang_query' : imageInput.length !== 0 ? '' : textInput,
+    //   'image_query' : imageInput.length !== 0 ? imageInput : '',
+    // });
+    const formData = new FormData();
+    formData.append('query_type', query_type);
+    formData.append('video_names', videoNamesFiltered.join(','));
+    formData.append('lang_query', imageInput.length !== 0 ? '' : textInput);
+    // formData.append('image_query', imageInput.length !== 0 ? imageInput : '');
+    imageInput.length !== 0 ? imageInput.forEach((image: any) => formData.append('image_query', image)) : formData.append('image_query', '')
+    console.log(formData);
+    const startTime = Date.now();
     axios.post('http://localhost:5000/upload', formData).then(res => {
       setResultVideoDirs(res.data.message as string[]);
-    }).then(() => {setLoading(false)}).catch((err: any) => {setLoading(false); setOpen(false); console.log(err); alert(err)});
+    }).then(() => {
+      const timeTaken = Date.now() - startTime;
+      const minutes = Math.floor(timeTaken / 60000);
+      const seconds = ((timeTaken % 60000) / 1000).toFixed(0);
+      const formattedTime = `${minutes}:${parseInt(seconds) < 10 ? '0' : ''}${seconds}`;
+      setTimeTaken(formattedTime);
+      setLoading(false);
+    }).catch((err: any) => {setLoading(false); setOpen(false); console.log(err); alert(err)});
   }
   
 
@@ -63,7 +79,7 @@ const ButtonBar = () => {
         Reset
       </Button>
       <Modal open={open} onClose={handleClose}>
-        <Results loading={loading} />
+        <Results loading={loading} timetaken={timetaken} />
       </Modal>
     </Box>
   );

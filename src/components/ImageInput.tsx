@@ -83,12 +83,54 @@ const ImageInput = () => {
     isDragReject
   ]);
 
+  const thumbsContainer: React.CSSProperties = {
+    display: 'flex',
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    marginTop: 16,
+    marginLeft: 20
+  };
+  const thumb: React.CSSProperties = {
+    display: 'inline-flex',
+    borderRadius: 2,
+    border: '1px solid #eaeaea',
+    marginBottom: 8,
+    marginRight: 8,
+    width: 'auto',
+    height: 200,
+    padding: 4,
+    boxSizing: 'border-box'
+  };
+  
+  const thumbInner: React.CSSProperties = {
+    display: 'flex',
+    minWidth: 0,
+    overflow: 'hidden'
+  };
+  
+  const img: React.CSSProperties = {
+    display: 'block',
+    width: 'auto',
+    height: 'auto'
+  };
+
+  const thumbs = imageInput.map((image, index) => (
+    <div key={index} style={thumb}>
+      <div style={thumbInner}>
+        <img src={URL.createObjectURL(image)} alt="image" style={img} onLoad={() => URL.revokeObjectURL(image.name)} />
+      </div>
+    </div>
+  ));
+
   return (
     <Box >
       <div {...getRootProps({ style: style as React.CSSProperties })}>
         <input {...getInputProps()} />
         <p>Drag 'n' drop some files here, or click to select files</p>
       </div>
+      <aside style={thumbsContainer}>
+        {thumbs}
+      </aside>
     </Box>
   );
 };

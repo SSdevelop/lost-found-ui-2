@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Box, Tabs, Tab, CircularProgress } from "@mui/material";
+import { Box, Tabs, Tab, CircularProgress, Typography } from "@mui/material";
 import useVisibilityStore from "../store/visibilityStore";
 
 const style = {
@@ -13,9 +13,10 @@ const style = {
 
 type ResultsProps = {
     loading: boolean;
+    timetaken: string;
 };
 
-export default function Results( { loading }: ResultsProps) {
+export default function Results( { loading, timetaken }: ResultsProps) {
     const { resultVideoDirs } = useVisibilityStore(state => ({
         resultVideoDirs: state.resultVideoDirs,
     }));
@@ -29,6 +30,8 @@ export default function Results( { loading }: ResultsProps) {
             resultVideos.push(`${resultVideoDirs[i]}/rank0.mp4`);
             resultVideos.push(`${resultVideoDirs[i]}/rank1.mp4`);
             resultVideos.push(`${resultVideoDirs[i]}/rank2.mp4`);
+            // resultVideos.push(`${resultVideoDirs[i]}/rank3.mp4`);
+            // resultVideos.push(`${resultVideoDirs[i]}/rank4.mp4`);
         }
         setVideos(resultVideos);
     }, [resultVideoDirs]);
@@ -36,7 +39,15 @@ export default function Results( { loading }: ResultsProps) {
     return (
         <Box sx={style}>
             {
-                loading ? (<CircularProgress />) : (<VideoTabs videoNames={videos} />)
+                loading ? (<CircularProgress />) : (
+                    <Box sx={{ width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
+                        <Box sx={{ mt: 2, width: '100%', display: 'flex', justifyContent: 'flex-end' }}>
+                            <Typography variant="h6">Time taken: {timetaken}</Typography>
+                        </Box>
+                        <VideoTabs videoNames={videos} />     
+                    </Box>
+                
+                )
             }
         </Box>
     );
@@ -61,9 +72,12 @@ const VideoTabs = ({ videoNames }: VideoTabsProps) => {
             <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                 <Tabs value={value} onChange={(event, newValue) => setValue(newValue)} aria-label="video tabs">
                     {
-                        videoNames.map((videoName, index) => videoName !== '' && (
-                            <Tab label={videoName.slice(videoName.lastIndexOf('/') + 1)} key={index} {...a11yProps(index)} />
-                        ))
+                        videoNames.map((videoName, index) => {
+                            const rank: string = videoName.slice(videoName.lastIndexOf('/') + 1);
+                            const rankNumber: number = parseInt(rank.charAt(4)) + 1
+                            return videoName !== '' && (
+                            <Tab label={`Rank ${rankNumber}`} key={index} {...a11yProps(index)} />
+                        )})
                     }
                 </Tabs>
             </Box>
