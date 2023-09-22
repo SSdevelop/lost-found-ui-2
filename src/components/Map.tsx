@@ -45,7 +45,7 @@ const Map = () => {
         attributionControl={false}
       >
         <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-        {
+                {
           videoCameras.map((camera, index) => (
             <Marker key={index} position={camera.position as LatLngExpression} icon={selected[index] ? selectedIcon : defaultIcon} eventHandlers={{
               click: () => { 
@@ -64,7 +64,7 @@ const Map = () => {
             </Marker>
           ))
         }
-      </MapContainer>
+              </MapContainer>
     </>
   );
 };

@@ -27,9 +27,9 @@ export default function Results( { loading, timetaken }: ResultsProps) {
         console.log(resultVideoDirs);
         const resultVideos = [];
         for(let i = 0; i < resultVideoDirs.length; i++) {
-            resultVideos.push(`${resultVideoDirs[i]}/rank0.mp4`);
-            resultVideos.push(`${resultVideoDirs[i]}/rank1.mp4`);
-            resultVideos.push(`${resultVideoDirs[i]}/rank2.mp4`);
+            resultVideos.push(`${resultVideoDirs[i]}/rank0.webm`);
+            resultVideos.push(`${resultVideoDirs[i]}/rank1.webm`);
+            resultVideos.push(`${resultVideoDirs[i]}/rank2.webm`);
             // resultVideos.push(`${resultVideoDirs[i]}/rank3.mp4`);
             // resultVideos.push(`${resultVideoDirs[i]}/rank4.mp4`);
         }
@@ -87,7 +87,7 @@ const VideoTabs = ({ videoNames }: VideoTabsProps) => {
                         {
                             value === index && (
                                 <video controls height={500}>
-                                    <source src={`http://localhost:5000/files/results?filepath=${videoName}`} />
+                                    <source src={`http://localhost:5000/files/results?filepath=${videoName}`} type="video/webm" />
                                 </video>
                             )
                         }
