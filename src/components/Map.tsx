@@ -1,11 +1,13 @@
 import { useState } from "react";
 import { MapContainer, Marker, TileLayer, Tooltip } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
+import "leaflet-area-select";
 import { LatLngBoundsExpression, LatLngExpression } from "leaflet";
-import {icon} from "leaflet/src/layer/marker";
+import { icon } from "leaflet/src/layer/marker";
 import securityCameraIcon from "../assets/security-camera.svg";
 
 import useVisibilityStore from "../store/visibilityStore";
+import AreaSelect from "./AreaSelect";
 
 const Map = () => {
   const airportBounds: LatLngBoundsExpression = [
@@ -30,7 +32,7 @@ const Map = () => {
     iconAnchor: [12, 41],
   });
 
-  const { videoNames, setVideoNames } = useVisibilityStore(state => ({
+  const { videoNames, setVideoNames } = useVisibilityStore((state) => ({
     videoNames: state.videoNames,
     setVideoNames: state.setVideoNames,
   }));
@@ -41,30 +43,42 @@ const Map = () => {
         bounds={airportBounds}
         zoom={10}
         scrollWheelZoom={false}
-        style={{ margin: 0, height: '82.5%', width: "95%", borderRadius: '10px', boxShadow: '0px 0px 5px 0px rgba(0,0,0,0.75)' }}
+        style={{
+          margin: 0,
+          height: "82.5%",
+          width: "95%",
+          borderRadius: "10px",
+          boxShadow: "0px 0px 5px 0px rgba(0,0,0,0.75)",
+        }}
         attributionControl={false}
       >
         <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-                {
-          videoCameras.map((camera, index) => (
-            <Marker key={index} position={camera.position as LatLngExpression} icon={selected[index] ? selectedIcon : defaultIcon} eventHandlers={{
-              click: () => { 
+        {videoCameras.map((camera, index) => (
+          <Marker
+            key={index}
+            position={camera.position as LatLngExpression}
+            icon={selected[index] ? selectedIcon : defaultIcon}
+            eventHandlers={{
+              click: () => {
                 const newSelected = [...selected];
                 newSelected[index] = !newSelected[index];
                 setSelected(newSelected);
 
                 const newVideoNames = [...videoNames];
-                newVideoNames[index] = newSelected[index] ? videoCameras[index].name : "";
+                newVideoNames[index] = newSelected[index]
+                  ? videoCameras[index].name
+                  : "";
                 setVideoNames(newVideoNames);
-              }
-            }}>
-              <Tooltip direction="left" offset={[-10, -20]} opacity={0.75}>
-                {camera.name}
-              </Tooltip>
-            </Marker>
-          ))
-        }
-              </MapContainer>
+              },
+            }}
+          >
+            <Tooltip direction="left" offset={[-10, -20]} opacity={0.75}>
+              {camera.name}
+            </Tooltip>
+          </Marker>
+        ))}
+        <AreaSelect />
+      </MapContainer>
     </>
   );
 };

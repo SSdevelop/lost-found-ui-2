@@ -1,7 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect } from "react";
 import { useMap } from "react-leaflet";
-import L from "leaflet";
+// import SelectArea from 'leaflet-area-select';
+// import L from "leaflet";
 
 export default function AreaSelect() {
     const map = useMap();

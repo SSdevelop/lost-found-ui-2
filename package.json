@@ -18,6 +18,7 @@
     "formik": "^2.4.3",
     "formik-mui": "^5.0.0-alpha.0",
     "leaflet": "^1.9.4",
+    "leaflet-area-select": "^1.0.5",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-dropzone": "^14.2.3",
