@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Box } from "@mui/material";
+import { Box, Button } from "@mui/material";
 import React, { useMemo } from "react";
 import { useDropzone } from "react-dropzone";
 import useVisibilityStore from "../store/visibilityStore";
@@ -69,8 +69,11 @@ const ImageInput = () => {
     getInputProps,
     isFocused,
     isDragAccept,
-    isDragReject
-  } = useDropzone({accept: {'image/*': []}, onDrop, disabled: imageDisabled, validator: duplicateValidator});
+    isDragReject,
+    open
+  } = useDropzone({accept: {'image/*': []}, onDrop, disabled: imageDisabled, validator: duplicateValidator, noClick: true, noKeyboard: true});
+
+  // const dropzoneRef = createRef<HTMLInputElement | any>();
 
   const style = useMemo(() => ({
     ...baseStyle,
@@ -125,8 +128,17 @@ const ImageInput = () => {
   return (
     <Box >
       <div {...getRootProps({ style: style as React.CSSProperties })}>
-        <input {...getInputProps()} />
-        <p>Drag 'n' drop some files here, or click to select files</p>
+        <input {...getInputProps()}/>
+        {/* <p>Drag 'n' drop some files here, or click to select files</p> */}
+        <br />
+        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+          <Button variant="contained" color="primary" onClick={open} sx={{ margin: '10px' }}>
+            Select File
+          </Button>
+          <Button variant="contained" color="primary" onClick={open}>
+            Camera Capture
+          </Button> 
+        </div>
       </div>
       <aside style={thumbsContainer}>
         {thumbs}
