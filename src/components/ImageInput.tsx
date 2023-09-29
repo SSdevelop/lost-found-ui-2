@@ -34,7 +34,6 @@ const ImageInput = () => {
   };
 
   const {
-    // acceptedFiles,
     getRootProps,
     getInputProps,
     isFocused,

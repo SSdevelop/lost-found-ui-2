@@ -1,27 +1,43 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect } from "react";
 import { useMap } from "react-leaflet";
-// import SelectArea from 'leaflet-area-select';
-// import L from "leaflet";
+import useVisibilityStore from '../store/visibilityStore';
+import { videoCameras } from '../utils/mapData';
 
 export default function AreaSelect() {
+    const { videoNames, setVideoNames, mapSelected, setMapSelected } = useVisibilityStore((state) => ({
+        videoNames: state.videoNames,
+        setVideoNames: state.setVideoNames,
+        mapSelected: state.mapSelected,
+        setMapSelected: state.setMapSelected,
+      }));
     const map = useMap();
 
     useEffect(() => {
         if (!map.selectArea) return;
 
         map.selectArea.enable();
-        console.log(map);
 
         map.on("areaselected", (e) => {
-            console.log(e.bounds);
-            console.log([e.bounds.getNorthEast(), e.bounds.getSouthWest()]);
-            // L.rectangle(e.bounds, { color: "#f00" }).addTo(map);
+            const newSelected = [...mapSelected];
+            const newVideoNames = [...videoNames];
+            videoCameras.forEach((camera, index) => {
+                if (
+                    camera.position[0] <= e.bounds.getNorthEast().lat &&
+                    camera.position[0] >= e.bounds.getSouthWest().lat &&
+                    camera.position[1] <= e.bounds.getNorthEast().lng &&
+                    camera.position[1] >= e.bounds.getSouthWest().lng
+                ){
+                    newSelected[index] = !newSelected[index];
+                    newVideoNames[index] = newSelected[index]
+                        ? camera.name
+                        : "";
+                }
+            });
+            setMapSelected(newSelected);
+            setVideoNames(newVideoNames);
+            
         });
-
-        // map.on("click", (e) => {
-        //     map.remove();
-        // });
 
         const bounds = map.getBounds().pad(-0.25);
 
