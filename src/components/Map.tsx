@@ -1,25 +1,20 @@
-import { useState } from "react";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+// import { useEffect, useState } from "react";
 import { MapContainer, Marker, TileLayer, Tooltip } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import "leaflet-area-select";
-import { LatLngBoundsExpression, LatLngExpression } from "leaflet";
+import { LatLngExpression } from "leaflet";
 import { icon } from "leaflet/src/layer/marker";
 import securityCameraIcon from "../assets/security-camera.svg";
 
 import useVisibilityStore from "../store/visibilityStore";
 import AreaSelect from "./AreaSelect";
+import { airportBounds, videoCameras } from "../utils/mapData";
 
 const Map = () => {
-  const airportBounds: LatLngBoundsExpression = [
-    [22.303, 113.913],
-    [22.311, 113.921],
-  ];
-  const videoCameras = [
-    { name: "IMG_1752.mp4", position: [22.308, 113.917] },
-    { name: "IMG_6757.mp4", position: [22.305, 113.919] },
-    { name: "hong_kong_airport_demo_data.mp4", position: [22.309, 113.916] },
-  ];
-  const [selected, setSelected] = useState([false, false, false]);
+  
+  
+  // const [selected, setSelected] = useState([false, false, false]);
   const defaultIcon = icon({
     iconUrl: securityCameraIcon,
     iconSize: [25, 41],
@@ -32,9 +27,11 @@ const Map = () => {
     iconAnchor: [12, 41],
   });
 
-  const { videoNames, setVideoNames } = useVisibilityStore((state) => ({
+  const { videoNames, setVideoNames, mapSelected, setMapSelected } = useVisibilityStore((state) => ({
     videoNames: state.videoNames,
     setVideoNames: state.setVideoNames,
+    mapSelected: state.mapSelected,
+    setMapSelected: state.setMapSelected,
   }));
 
   return (
@@ -57,12 +54,12 @@ const Map = () => {
           <Marker
             key={index}
             position={camera.position as LatLngExpression}
-            icon={selected[index] ? selectedIcon : defaultIcon}
+            icon={mapSelected[index] ? selectedIcon : defaultIcon}
             eventHandlers={{
               click: () => {
-                const newSelected = [...selected];
+                const newSelected = [...mapSelected];
                 newSelected[index] = !newSelected[index];
-                setSelected(newSelected);
+                setMapSelected(newSelected);
 
                 const newVideoNames = [...videoNames];
                 newVideoNames[index] = newSelected[index]
@@ -78,7 +75,7 @@ const Map = () => {
           </Marker>
         ))}
         <AreaSelect />
-      </MapContainer>
+      </MapContainer>        
     </>
   );
 };

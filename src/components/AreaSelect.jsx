@@ -11,9 +11,11 @@ export default function AreaSelect() {
         if (!map.selectArea) return;
 
         map.selectArea.enable();
+        console.log(map);
 
         map.on("areaselected", (e) => {
-            console.log([e.bounds.getWest(), e.bounds.getSouth(), e.bounds.getEast(), e.bounds.getNorth()]);
+            console.log(e.bounds);
+            console.log([e.bounds.getNorthEast(), e.bounds.getSouthWest()]);
             // L.rectangle(e.bounds, { color: "#f00" }).addTo(map);
         });
 

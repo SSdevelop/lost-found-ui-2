@@ -3,37 +3,7 @@ import { Box, Button } from "@mui/material";
 import React, { useMemo } from "react";
 import { useDropzone } from "react-dropzone";
 import useVisibilityStore from "../store/visibilityStore";
-const baseStyle = {
-  width: '90%',
-  height: '5.5em',
-  margin: 'auto',
-  flex: 1,
-  display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'center',
-  justifyContent: 'center',
-  padding: '20px',
-  borderWidth: 2,
-  borderRadius: 2,
-  borderColor: '#eeeeee',
-  borderStyle: 'dashed',
-  backgroundColor: '#fafafa',
-  color: '#bdbdbd',
-  outline: 'none',
-  transition: 'border .24s ease-in-out'
-};
-
-const focusedStyle = {
-  borderColor: '#2196f3'
-};
-
-const acceptStyle = {
-  borderColor: '#00e676'
-};
-
-const rejectStyle = {
-  borderColor: '#ff1744'
-};
+import * as inputStyle from '../utils/imageInputStyles';
 
 const ImageInput = () => {
   const {
@@ -76,51 +46,22 @@ const ImageInput = () => {
   // const dropzoneRef = createRef<HTMLInputElement | any>();
 
   const style = useMemo(() => ({
-    ...baseStyle,
-    ...(isFocused ? focusedStyle : {}),
-    ...(isDragAccept ? acceptStyle : {}),
-    ...(isDragReject ? rejectStyle : {})
+    ...inputStyle.baseStyle,
+    ...(isFocused ? inputStyle.focusedStyle : {}),
+    ...(isDragAccept ? inputStyle.acceptStyle : {}),
+    ...(isDragReject ? inputStyle.rejectStyle : {})
   }), [
     isFocused,
     isDragAccept,
     isDragReject
   ]);
 
-  const thumbsContainer: React.CSSProperties = {
-    display: 'flex',
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    marginTop: 16,
-    marginLeft: 20
-  };
-  const thumb: React.CSSProperties = {
-    display: 'inline-flex',
-    borderRadius: 2,
-    border: '1px solid #eaeaea',
-    marginBottom: 8,
-    marginRight: 8,
-    width: 'auto',
-    height: 200,
-    padding: 4,
-    boxSizing: 'border-box'
-  };
   
-  const thumbInner: React.CSSProperties = {
-    display: 'flex',
-    minWidth: 0,
-    overflow: 'hidden'
-  };
-  
-  const img: React.CSSProperties = {
-    display: 'block',
-    width: 'auto',
-    height: 'auto'
-  };
 
   const thumbs = imageInput.map((image, index) => (
-    <div key={index} style={thumb}>
-      <div style={thumbInner}>
-        <img src={URL.createObjectURL(image)} alt="image" style={img} onLoad={() => URL.revokeObjectURL(image.name)} />
+    <div key={index} style={inputStyle.thumb}>
+      <div style={inputStyle.thumbInner}>
+        <img src={URL.createObjectURL(image)} alt="image" style={inputStyle.img} onLoad={() => URL.revokeObjectURL(image.name)} />
       </div>
     </div>
   ));
@@ -140,7 +81,7 @@ const ImageInput = () => {
           </Button> 
         </div>
       </div>
-      <aside style={thumbsContainer}>
+      <aside style={inputStyle.thumbsContainer}>
         {thumbs}
       </aside>
     </Box>

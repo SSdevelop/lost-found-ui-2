@@ -8,12 +8,14 @@ type VisibilityState = {
   imageDisabled: boolean;
   videoNames: string[];
   resultVideoDirs: string[];
+  mapSelected: boolean[];
   setTextInput: (v: string) => void;
   setImageInput: (v: File[]) => void;
   setVideoNames: (v: string[]) => void;
   resetInputs: () => void;
   removeImageAt: (index: number) => void;
   setResultVideoDirs: (v: string[]) => void;
+  setMapSelected: (v: boolean[]) => void;
 };
 
 const useVisibilityStore = create<VisibilityState>(
@@ -25,6 +27,7 @@ const useVisibilityStore = create<VisibilityState>(
       imageDisabled: false,
       videoNames: ['', '', ''],
       resultVideoDirs: [] as string[],
+      mapSelected: [false, false, false],
     
     },
     (set) => ({
@@ -48,8 +51,9 @@ const useVisibilityStore = create<VisibilityState>(
         set({ imageInput: newImageInput });
       },
       setResultVideoDirs: (v: string[]) => set({ resultVideoDirs: v }),
-    })
+      setMapSelected: (v: boolean[]) => set({ mapSelected: v }),
+    }
   )
-);
+));
 
 export default useVisibilityStore;
