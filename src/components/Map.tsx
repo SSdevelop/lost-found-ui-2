@@ -57,6 +57,7 @@ const Map = () => {
             icon={mapSelected[index] ? selectedIcon : defaultIcon}
             eventHandlers={{
               click: () => {
+                console.log(mapSelected);
                 const newSelected = [...mapSelected];
                 newSelected[index] = !newSelected[index];
                 setMapSelected(newSelected);

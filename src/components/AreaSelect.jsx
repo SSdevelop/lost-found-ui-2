@@ -19,6 +19,7 @@ export default function AreaSelect() {
         map.selectArea.enable();
 
         map.on("areaselected", (e) => {
+            // console.log(mapSelected)
             const newSelected = [...mapSelected];
             const newVideoNames = [...videoNames];
             videoCameras.forEach((camera, index) => {
@@ -34,6 +35,7 @@ export default function AreaSelect() {
                         : "";
                 }
             });
+            console.log(newSelected);
             setMapSelected(newSelected);
             setVideoNames(newVideoNames);
             

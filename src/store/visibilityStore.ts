@@ -44,6 +44,7 @@ const useVisibilityStore = create<VisibilityState>(
           imageDisabled: false,
           videoNames: ['', '', ''],
           resultVideoDirs: [] as string[],
+          mapSelected: [false, false, false],
         }),
       removeImageAt: (index: number) => {
         const newImageInput = [...useVisibilityStore.getState().imageInput];

@@ -1,9 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Box, Button } from "@mui/material";
-import React, { useMemo } from "react";
+import React, { useMemo, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import useVisibilityStore from "../store/visibilityStore";
 import * as inputStyle from '../utils/imageInputStyles';
+import CameraModal from './CameraModal';
 
 const ImageInput = () => {
   const {
@@ -15,11 +16,15 @@ const ImageInput = () => {
     setImageInput: state.setImageInput,
     imageDisabled: state.imageDisabled,
   }));
+  const [openModal, setOpen] = useState<boolean>(false);
 
   const onDrop = (acceptedFiles: File[]) => {
     const newInputImages = [...imageInput, ...acceptedFiles];
     setImageInput(newInputImages);
   }
+
+  const handleClose = () => setOpen(false);
+  const openCamera = () => setOpen(true);
 
   const duplicateValidator = (file: File) => {
     for(let i=0; i < imageInput.length; i++) {
@@ -75,7 +80,7 @@ const ImageInput = () => {
           <Button variant="contained" color="primary" onClick={open} sx={{ margin: '10px' }}>
             Select File
           </Button>
-          <Button variant="contained" color="primary" onClick={open}>
+          <Button variant="contained" color="primary" onClick={openCamera}>
             Camera Capture
           </Button> 
         </div>
@@ -83,6 +88,7 @@ const ImageInput = () => {
       <aside style={inputStyle.thumbsContainer}>
         {thumbs}
       </aside>
+      <CameraModal open={openModal} handleClose={handleClose} />
     </Box>
   );
 };
