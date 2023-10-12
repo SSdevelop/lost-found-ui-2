@@ -12,7 +12,7 @@ function App() {
     <>
       <Header />
       <Grid container spacing={2} sx={{ marginTop: '100px' }}>
-        <Grid item xs={12} md={6} sx={{ height: '55vh', display: 'flex', flexDirection:'column', justifyContent: 'center', alignItems: 'center' }}>
+        <Grid item xs={12} md={6} sx={{ display: 'flex', flexDirection:'column', justifyContent: 'center', alignItems: 'center' }}>
           <LanguageQuery />
           <Divider sx={{ width: '85%' }}>
             <Typography variant="overline">

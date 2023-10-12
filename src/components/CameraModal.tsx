@@ -30,14 +30,14 @@ export default function CameraModal({ open, handleClose }: CameraModalProps) {
         imageInput: state.imageInput,
         setImageInput: state.setImageInput
     }));
-    const getFormattedTime = () : string => {
+    const getFormattedTime = (): string => {
         const today = new Date();
         return "" + today.getFullYear() + (today.getMonth() + 1) + today.getDate() + today.getHours() + today.getMinutes() + today.getSeconds();
     };
     const handleCapture = () => {
-        if(webcamRef.current) {
+        if (webcamRef.current) {
             const screenshot = webcamRef.current.getScreenshot();
-            if(screenshot) {
+            if (screenshot) {
                 fetch(screenshot)
                     .then(res => res.blob())
                     .then(blob => {
@@ -49,7 +49,7 @@ export default function CameraModal({ open, handleClose }: CameraModalProps) {
             }
         }
     };
-    return(
+    return (
         <Modal open={open} onClose={handleClose}>
             <Box sx={style}>
                 <Typography variant="h2" component="div" sx={{ width: '100%', textAlign: 'center' }}>

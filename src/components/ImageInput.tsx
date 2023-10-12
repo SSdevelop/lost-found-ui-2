@@ -71,7 +71,7 @@ const ImageInput = () => {
   ));
 
   return (
-    <Box >
+    <Box sx={{ width: '100%', maxHeight: '10rem', overflowY: imageInput.length === 0 ? 'hidden' : 'scroll' }}>
       <div {...getRootProps({ style: style as React.CSSProperties })}>
         <input {...getInputProps()}/>
         {/* <p>Drag 'n' drop some files here, or click to select files</p> */}
