@@ -73,7 +73,7 @@ const VideoTabs = ({ videoNames }: VideoTabsProps) => {
                         {
                             value === index && (
                                 <video controls height={500}>
-                                    <source src={`http://localhost:5000/files/${videoName}`} />
+                                    <source src={`http://10.10.101.17:5000/files/${videoName}`} />
                                 </video>
                             )
                         }

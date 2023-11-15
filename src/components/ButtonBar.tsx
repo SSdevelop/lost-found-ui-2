@@ -38,7 +38,7 @@ const ButtonBar = () => {
     imageInput.length !== 0 ? imageInput.forEach((image: any) => formData.append('image_query', image)) : formData.append('image_query', '')
     console.log(formData);
     const startTime = Date.now();
-    axios.post('http://localhost:5000/upload', formData).then(res => {
+    axios.post('http://10.10.101.17:5000/upload', formData).then(res => {
       setResultVideoDirs(res.data.message as string[]);
     }).then(() => {
       const timeTaken = Date.now() - startTime;

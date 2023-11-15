@@ -7,7 +7,7 @@ const Header = () => {
       <AppBar position="static" sx={{ padding: "0.75em" }}>
         <Toolbar>
           <Typography variant="h3" component="div" sx={{ flexGrow: 1 }}>
-            Lost and Found
+            CPII Lost and Found system
           </Typography>
         </Toolbar>
       </AppBar>
