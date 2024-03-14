@@ -6,7 +6,7 @@ export const airportBounds: LatLngBoundsExpression = [
 ];
 
 export const videoCameras = [
-    { name: "hong_kong_airport7.mp4", position: [22.308, 113.917] },
-    { name: "hong_kong_airport8.mp4", position: [22.305, 113.919] },
+    { name: "airport_image.mp4", position: [22.308, 113.917] },
+    { name: "airport_lang.mp4", position: [22.305, 113.919] },
     { name: "hong_kong_airport_demo_data.mp4", position: [22.309, 113.916] },
 ];
