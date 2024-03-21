@@ -9,6 +9,7 @@ function Home() {
     return (
         <Grid container spacing={2} sx={{ height: '100vh'}}>
             <Grid item xs={12} sx={{ height: '20%' }}>
+<<<<<<< HEAD
                 <Header />
             </Grid>
             <Grid container item xs={12} md={5} spacing={1} sx={{height: '60%'}}>
@@ -32,6 +33,21 @@ function Home() {
             <Grid item xs={12} md={7} sx={{ height: "65%", display:'flex', flexDirection: 'column', alignContent: 'center' }}>
                 <Map />
                 <VideosModal />
+=======
+              <Header />
+            </Grid>
+            <Grid container item xs={12} md={5} spacing={1} sx={{height: '60%'}}>
+              <Grid item xs={12}>
+                <LanguageQuery />
+              </Grid>
+              <Grid item xs={12}>
+                <ButtonBar />
+              </Grid>
+            </Grid>
+            <Grid item xs={12} md={7} sx={{ height: "65%" }}>
+              <Map />
+              <VideosModal />
+>>>>>>> test
             </Grid>
         </Grid>
     );
