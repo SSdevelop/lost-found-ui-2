@@ -1,6 +1,6 @@
 export const baseStyle = {
   width: "90%",
-  height: "5.5em",
+  height: "10em",
   margin: "auto",
   flex: 1,
   display: "flex",

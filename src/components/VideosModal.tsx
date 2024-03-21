@@ -29,8 +29,8 @@ export default function VideosModal() {
     }, [videoNames]);
 
     return (
-        <Box>
-            <Button variant="contained" sx={{ margin: 0, height: "100%" }} disabled={!videoNames.some(Boolean)} onClick={handleClick}>
+        <Box sx={{ width: '100%' }}>
+            <Button variant="contained" sx={{ margin: 0, height: "100%", position: 'relative', left: '50%', transform: 'translateX(-50%)' }} disabled={!videoNames.some(Boolean)} onClick={handleClick}>
                 Show Selected Videos
             </Button>
             <Modal open={open} onClose={() => setOpen(false)}>

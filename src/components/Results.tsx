@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { useState, useEffect } from 'react';
 import { Box, Tabs, Tab, CircularProgress, Typography } from "@mui/material";
 import useVisibilityStore from "../store/visibilityStore";
