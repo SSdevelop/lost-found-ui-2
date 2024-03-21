@@ -1,9 +1,7 @@
 import { Grid } from "@mui/material";
 import Header from "../components/Header";
 import LanguageQuery from "../components/LanguageQuery";
-import Map from '../components/Map';
 import ButtonBar from '../components/ButtonBar';
-import VideosModal from "../components/VideosModal";
 
 function HomeVideo() {
     return (
