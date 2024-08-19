@@ -2,6 +2,7 @@ import { Grid } from "@mui/material";
 import Header from "../components/Header";
 import LanguageQuery from "../components/LanguageQuery";
 import ButtonBar from '../components/ButtonBar';
+import VideoInput from "../components/VideoInput";
 
 function HomeVideo() {
     return (
@@ -13,6 +14,9 @@ function HomeVideo() {
             <Grid container item xs={6} md={5} spacing={1} sx={{height: '60%'}}>
               <Grid item xs={12}>
                 <LanguageQuery />
+              </Grid>
+              <Grid item xs={12}>
+                <VideoInput />
               </Grid>
               <Grid item xs={12}>
                 <ButtonBar />

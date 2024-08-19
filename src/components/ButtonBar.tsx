@@ -33,12 +33,12 @@ const ButtonBar = () => {
     const formData = new FormData();
     formData.append('query_type', query_type);
     formData.append('video_names', videoNamesFiltered.join(','));
-    formData.append('lang_query', imageInput.length !== 0 ? '' : textInput);
+    formData.append('lang_query', textInput);
     // formData.append('image_query', imageInput.length !== 0 ? imageInput : '');
     imageInput.length !== 0 ? imageInput.forEach((image: any) => formData.append('image_query', image)) : formData.append('image_query', '')
     console.log(formData);
     const startTime = Date.now();
-    axios.post('http://localhost:5000/upload', formData).then(res => {
+    axios.post(imageInput.length === 0 ? 'http://localhost:5000/upload' : 'http://localhost:5000/custom_video', formData).then(res => {
       setResultVideoDirs(res.data.message as string[]);
     }).then(() => {
       const timeTaken = Date.now() - startTime;

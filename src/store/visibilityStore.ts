@@ -32,9 +32,9 @@ const useVisibilityStore = create<VisibilityState>(
     },
     (set) => ({
       setTextInput: (v: string) =>
-        set({ textInput: v, imageDisabled: v !== "" }),
+        set({ textInput: v }),
       setImageInput: (v: File[]) =>
-        set({ imageInput: v, textDisabled: v.length !== 0 }),
+        set({ imageInput: v }),
       setVideoNames: (v: string[]) => set({ videoNames: v }),
       resetInputs: () =>
         set({
